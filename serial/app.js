@@ -28,7 +28,7 @@
       }
       const email = String(user.email);
       const keyRef = db.collection("lisensi").doc(sK);
-      const getUUID = CryptoJS.MD5(uuid()).toString();
+      const getUUID = CryptoJS.MD5(crypto.randomUUID()).toString();
 
       keyRef.get().then((doc) => {
         if (!doc.exists) {
