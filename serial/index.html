@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="serial/serialkey.js"></script>
     <title>Input Serial</title>
 </head>
 <body>
     <script>
         const params = new URLSearchParams(window.location.search);
         const email = params.get("email");
-        console.alert(email);
+        console.log(email);
     </script>
+
+    <form action="post">
+        <input type="text" name="inputSerialKey" id="inputKey">
+        <br/>
+        <input type="submit" value="Login">
+    </form>
 </body>
 </html>
