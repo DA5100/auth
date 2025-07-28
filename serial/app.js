@@ -10,12 +10,14 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const ui = new firebaseui.auth.AuthUI(auth);
 const user = firebase.auth().currentUser;
 const db = firebase.firestore();
-// const inputKey = prompt("Masukan Key:");
-const keyRef = db.collection("lisensi").doc("serialKey");
+const params = new URLSearchParams(window.location.search);
+const sK = params.get("serial_key")
+const keyRef = db.collection("lisensi").doc(sK);
 document.addEventListener("DOMContentLoaded", function(){
-  const inputKey = document.getElementById("inputKey").ariaValueText;
   keyRef.get().then((doc) => {
   if (!doc.exists) {
     alert("Serial key tidak ditemukan.");
@@ -37,30 +39,30 @@ document.addEventListener("DOMContentLoaded", function(){
     return;
   }
 
-//   const userRef = db.collection("users").doc(user.uid);
+  if (keyData.email !== user.email) {
+    alert("Maaf, Serial key ini tidak cocok dengan akun Anda.");
+    auth.signOut();
+    return;
+  }
 
-//   userRef.set({
-//     email: user.email,
-//     name: user.displayName || "Anonymous",
-//     serialKey: inputKey,
-//     createdAt: firebase.firestore.FieldValue.serverTimestamp()
-//   }).then(() => {
-//     keyRef.update({
-//       used: true,
-//       userId: user.uid,
-//       usedAt: firebase.firestore.FieldValue.serverTimestamp()
-//     });
+  else {
+    keyRef.update({
+      used: true,
+      usedBy: user.email,
+      usedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      console.log("Serial key berhasil diverifikasi dan digunakan.");
+      alert("Serial key berhasil diverifikasi. Terima kasih telah menggunakan layanan kami!");
+      window.location.href = "https://da5100.github.io/qrda/?session=" + btoa(sK) + "&email=" + btoa(user.email);
+    }).catch((error) => {
+      console.error("Gagal memperbarui status serial key:", error);
+      alert("Gagal memperbarui status serial key.");
+    });
+  }
 
-//     alert("Registrasi berhasil!");
-//     updateUI(user);
-//   }).catch((error) => {
-//     console.error("Gagal menyimpan user:", error);
-//     alert("Terjadi kesalahan saat menyimpan data.");
-//   });
-
-// }).catch((error) => {
-//   console.error("Gagal cek serial key:", error);
-//   alert("Gagal verifikasi serial key.");
+}).catch((error) => {
+  console.error("Gagal cek serial key:", error);
+  alert("Gagal verifikasi serial key.");
 });
 
 })
