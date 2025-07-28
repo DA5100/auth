@@ -13,9 +13,8 @@ const firebaseConfig = {
   measurementId: "G-DGF0CP099H"                  
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const app = firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 const user = firebase.auth().currentUser;
 const db = firebase.firestore();
 const inputKey = prompt("Masukan Key:");
