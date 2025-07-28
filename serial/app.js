@@ -1,14 +1,14 @@
 
   const firebaseConfig = {
-    apiKey: "AIzaSyBnRKitQGBX0u8k4COtDTILYxCJuMf7xzE",
-    authDomain: "authdramaarena.firebaseapp.com",     
-    databaseURL: "https://authdramaarena.firebaseio.com",
-    projectId: "authdramaarena",                      
-    storageBucket: "authdramaarena.appspot.com",      
-    messagingSenderId: "348583435302",             
-    appId: "1:348583435302:web:someUniqueWebId",    
-    measurementId: "G-DGF0CP099H"                  
-  };
+            apiKey: "AIzaSyCBeFJtPKEMURY-iUDUR4I6gWKjmlTk_3E",
+            authDomain: "authdramaarena.firebaseapp.com",     
+            databaseURL: "https://authdramaarena.firebaseio.com",
+            projectId: "authdramaarena",                      
+            storageBucket: "authdramaarena.appspot.com",      
+            messagingSenderId: "348583435302",             
+            appId: "1:348583435302:web:someUniqueWebId",    
+            measurementId: "G-DGF0CP099H"                  
+        };
 
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
