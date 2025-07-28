@@ -17,7 +17,6 @@
   document.addEventListener("DOMContentLoaded", function () {
     const params = new URLSearchParams(window.location.search);
     const sK = params.get("serial_key");
-
     auth.onAuthStateChanged((user) => {
       if (!user) {
         alert("Anda belum login. Silakan login terlebih dahulu.");
@@ -27,28 +26,29 @@
       if (user) {
         console.log("User is logged in:", user.displayName); 
       }
-
       const email = String(user.email);
       const keyRef = db.collection("lisensi").doc(sK);
-
       keyRef.get().then((doc) => {
         if (!doc.exists) {
           alert("Serial key tidak ditemukan.");
           auth.signOut();
           return;
         }
-
         const keyData = doc.data();
-
-        if (keyData.used == true) {
+        if (keyData.used == true && keyData.email !== e) {
           alert("Maaf, Serial key ini sudah digunakan.");
           auth.signOut();
           return;
+        } else if (keyData.used == true && keyData.email == email) {
+            alert("Email dan serial key sudah terverifikasi.");
+            window.location.href = "https://da5100.github.io/qrda/?session=" + btoa(sK) + "&email=" + btoa(email);
+           
         } else if (keyData.blocked == true) {
             alert("Maaf, Serial key ini diblokir.");
             auth.signOut();
             return;
-        } else if (keyData.email && keyData.email !== email) {
+        } 
+        else if (keyData.email && keyData.email !== email) {
             alert("Maaf, Serial key ini tidak cocok dengan akun Anda.");
             auth.signOut();
             return;
@@ -56,15 +56,14 @@
         keyRef.update({
           used: true,
           email: email,
-        }).then(() => {
-          alert("Serial key berhasil diverifikasi. Terima kasih telah menggunakan layanan kami!");
-          window.location.href = "https://da5100.github.io/qrda/?session=" + btoa(sK) + "&email=" + btoa(email);
-        }).catch((error) => {
-          console.error("Gagal memperbarui status serial key:", error);
-          alert("Gagal memperbarui status serial key.");
-        });
+          }).then(() => {
+            alert("Serial key berhasil diverifikasi. Terima kasih telah menggunakan layanan kami!");
+            window.location.href = "https://da5100.github.io/qrda/?session=" + btoa(sK) + "&email=" + btoa(email);
+          }).catch((error) => {
+            console.error("Gagal memperbarui status serial key:", error);
+            alert("Gagal memperbarui status serial key.");
+          });
         }
-
       }).catch((error) => {
         console.error("Gagal cek serial key:", error);
         alert("Gagal verifikasi serial key.");
