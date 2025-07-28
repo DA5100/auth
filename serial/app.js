@@ -24,6 +24,9 @@
         window.location.href = "https://da5100.github.io/auth/";
         return;
       }
+      if (user) {
+        console.log("User is logged in:", user.displayName); 
+      }
 
       const email = user.email;
       const keyRef = db.collection("lisensi").doc(sK);
