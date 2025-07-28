@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function(){
     return;
   }
 
-  if (keyData.email !== user.email) {
+  if (keyData.email !== user.email || keyData.email == null) {
     alert("Maaf, Serial key ini tidak cocok dengan akun Anda.");
     auth.signOut();
     return;
