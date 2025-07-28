@@ -18,11 +18,6 @@
     const params = new URLSearchParams(window.location.search);
     const sK = params.get("serial_key");
 
-    if (!sK) {
-      alert("Serial key tidak tersedia di URL.");
-      return;
-    }
-
     auth.onAuthStateChanged((user) => {
       if (!user) {
         alert("Anda belum login. Silakan login terlebih dahulu.");

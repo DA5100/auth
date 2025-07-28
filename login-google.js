@@ -14,7 +14,10 @@ const firebaseConfig = {
         document.addEventListener("DOMContentLoaded", function(){
             
             document.getElementById("tombol").addEventListener('click', () => {
-            auth.signInWithPopup(provider)
+                auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+                .then(() => {
+                    return auth.signInWithPopup(provider);
+                })
                 .then((result) => {
                     const user = result.user;
                     console.log("User signed in:", user.displayName);
@@ -26,15 +29,5 @@ const firebaseConfig = {
                     alert('Error signing in with Google. Please try again.');
                 });
             });
-            signOutBtn.addEventListener('click', () => {
-                auth.signOut()
-                    .then(() => {
-                        authContainer.classList.remove('hidden');
-                        userInfo.classList.add('hidden');
-                    })
-                    .catch((error) => {
-                       console.error('Error signing out:', error);
-                 });
-        });
         })
         
