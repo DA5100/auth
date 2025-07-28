@@ -16,7 +16,13 @@
         const email = params.get("email");
         console.log(email);
     </script>
-
-    <input type="text" name="Serial Key" id="inputSerialKey">
+    <form action="/serial/" method="get">
+        <label>
+            Input serial key
+            <input type="text" name="serial_key" id="inputSerialKey" required>
+        </label>
+        <button type="submit"></button>
+    </form>
+    
 </body>
 </html>

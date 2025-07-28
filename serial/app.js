@@ -15,7 +15,7 @@ const db = firebase.firestore();
 // const inputKey = prompt("Masukan Key:");
 const keyRef = db.collection("lisensi").doc("serialKey");
 document.addEventListener("DOMContentLoaded", function(){
-  const inputKey = document.getElementById("inputKey").FieldValue;
+  const inputKey = document.getElementById("inputKey").ariaValueText;
   keyRef.get().then((doc) => {
   if (!doc.exists) {
     alert("Serial key tidak ditemukan.");
