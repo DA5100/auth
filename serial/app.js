@@ -19,11 +19,11 @@
     const sK = params.get("serial_key");
 
     auth.onAuthStateChanged((user) => {
-      if (!user) {
-        alert("Anda belum login. Silakan login terlebih dahulu.");
-        window.location.href = "https://da5100.github.io/auth/";
-        return;
-      }
+      // if (!user) {
+      //   alert("Anda belum login. Silakan login terlebih dahulu.");
+      //   window.location.href = "https://da5100.github.io/auth/";
+      //   return;
+      // }
       if (user) {
         console.log("User is logged in:", user.displayName); 
       }
