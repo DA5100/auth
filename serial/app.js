@@ -28,6 +28,9 @@
       }
       const email = String(user.email);
       const keyRef = db.collection("lisensi").doc(sK);
+      const md5serialKey = CryptoJS.MD5(sK).toString();
+      const md5email = CryptoJS.MD5(email).toString();
+
       keyRef.get().then((doc) => {
         if (!doc.exists) {
           alert("Serial key tidak ditemukan.");
@@ -41,9 +44,9 @@
           return;
         } else if (keyData.used == true && keyData.email == email) {
             alert("Email dan serial key sudah terverifikasi.");
-            sessionStorage.setItem("serial_key", sK);
-            sessionStorage.setItem("email", email);
-            window.location.href = "https://da5100.github.io/qrda/?session=" + btoa(sK) + "&email=" + btoa(email);
+            sessionStorage.setItem("serial_key", md5serialKey);
+            sessionStorage.setItem("email", md5email);
+            window.location.href = "https://da5100.github.io/qrda/?session=" + md5serialKey + "&email=" + md5email;
            
         } else if (keyData.blocked == true) {
             alert("Maaf, Serial key ini diblokir.");
@@ -59,10 +62,10 @@
           used: true,
           email: email,
           }).then(() => {
-            alert("Serial key berhasil diverifikasi. Terima kasih telah menggunakan layanan kami!");
-            sessionStorage.setItem("serial_key", sK);
-            sessionStorage.setItem("email", email);
-            window.location.href = "https://da5100.github.io/qrda/?session=" + btoa(sK) + "&email=" + btoa(email);
+            alert("Serial key berhasil diverifikasi.");
+            sessionStorage.setItem("serial_key", md5serialKey);
+            sessionStorage.setItem("email", md5email);
+            window.location.href = "https://da5100.github.io/qrda/?session=" + md5serialKey + "&email=" + md5email;
           }).catch((error) => {
             console.error("Gagal memperbarui status serial key:", error);
             alert("Gagal memperbarui status serial key.");
