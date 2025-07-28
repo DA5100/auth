@@ -35,7 +35,7 @@
           return;
         }
         const keyData = doc.data();
-        if (keyData.used == true && keyData.email !== e) {
+        if (keyData.used == true && keyData.email !== email) {
           alert("Maaf, Serial key ini sudah digunakan.");
           auth.signOut();
           return;
