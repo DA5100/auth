@@ -45,6 +45,8 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 
   else {
+    auth().onAuthStateChanged((user) => {
+      if (user) {
     keyRef.update({
       used: true,
       usedBy: user.email,
@@ -56,7 +58,13 @@ document.addEventListener("DOMContentLoaded", function(){
       console.error("Gagal memperbarui status serial key:", error);
       alert("Gagal memperbarui status serial key.");
     });
-  }
+  } else {
+        console.log("Tidak ada pengguna yang masuk.");
+        alert("Anda harus masuk untuk menggunakan serial key ini.");
+        window.location.href = "https://da5100.github.io/auth/";
+      }
+  });
+}
 
 }).catch((error) => {
   console.error("Gagal cek serial key:", error);
