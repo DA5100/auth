@@ -40,28 +40,22 @@
 
         const keyData = doc.data();
 
-        if (keyData.used) {
+        if (keyData.used == true) {
           alert("Maaf, Serial key ini sudah digunakan.");
           auth.signOut();
           return;
-        }
-
-        if (keyData.blocked) {
-          alert("Maaf, Serial key ini diblokir.");
-          auth.signOut();
-          return;
-        }
-
-        if (!keyData.email || keyData.email !== email) {
-          alert("Maaf, Serial key ini tidak cocok dengan akun Anda.");
-          auth.signOut();
-          return;
-        }
-
-        // Everything OK → Mark key as used
+        } else if (keyData.blocked == true) {
+            alert("Maaf, Serial key ini diblokir.");
+            auth.signOut();
+            return;
+        } else if (!keyData.email || keyData.email !== "") {
+            alert("Maaf, Serial key ini tidak cocok dengan akun Anda.");
+            auth.signOut();
+            return;
+        } else { 
         keyRef.update({
           used: true,
-          usedBy: email,
+          email: email,
         }).then(() => {
           alert("Serial key berhasil diverifikasi. Terima kasih telah menggunakan layanan kami!");
           window.location.href = "https://da5100.github.io/qrda/?session=" + btoa(sK) + "&email=" + btoa(email);
@@ -69,6 +63,7 @@
           console.error("Gagal memperbarui status serial key:", error);
           alert("Gagal memperbarui status serial key.");
         });
+        }
 
       }).catch((error) => {
         console.error("Gagal cek serial key:", error);
