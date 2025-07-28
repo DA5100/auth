@@ -48,7 +48,7 @@
             alert("Maaf, Serial key ini diblokir.");
             auth.signOut();
             return;
-        } else if (!keyData.email || keyData.email !== "") {
+        } else if (keyData.email && keyData.email !== email) {
             alert("Maaf, Serial key ini tidak cocok dengan akun Anda.");
             auth.signOut();
             return;
