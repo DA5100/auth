@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", function(){
     keyRef.update({
       used: true,
       usedBy: user.email,
-      usedAt: firebase.firestore.FieldValue.serverTimestamp()
     }).then(() => {
       console.log("Serial key berhasil diverifikasi dan digunakan.");
       alert("Serial key berhasil diverifikasi. Terima kasih telah menggunakan layanan kami!");
