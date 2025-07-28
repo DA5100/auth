@@ -28,7 +28,7 @@
         console.log("User is logged in:", user.displayName); 
       }
 
-      const email = user.email;
+      const email = String(user.email);
       const keyRef = db.collection("lisensi").doc(sK);
 
       keyRef.get().then((doc) => {
