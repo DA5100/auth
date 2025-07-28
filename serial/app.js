@@ -13,11 +13,13 @@ const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const user = firebase.auth().currentUser;
 const db = firebase.firestore();
-const inputKey = prompt("Masukan Key:");
+// const inputKey = prompt("Masukan Key:");
 const keyRef = db.collection("lisensi").doc("serialKey");
-document.addEventListener("DOMContentLoaded", function(){
-  var inputKey = document.getElementById("inputKey")
+let inputKey = document.addEventListener("DOMContentLoaded", function(){
+  const inputKey = document.getElementById("inputKey")
+  return inputKey.FieldValue;
 })
+
 keyRef.get().then((doc) => {
   if (!doc.exists) {
     alert("Serial key tidak ditemukan.");
