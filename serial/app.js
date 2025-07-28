@@ -11,7 +11,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const ui = new firebaseui.auth.AuthUI(auth);
 const user = firebase.auth().currentUser;
 const db = firebase.firestore();
 const params = new URLSearchParams(window.location.search);
