@@ -41,6 +41,8 @@
           return;
         } else if (keyData.used == true && keyData.email == email) {
             alert("Email dan serial key sudah terverifikasi.");
+            sessionStorage.setItem("serial_key", sK);
+            sessionStorage.setItem("email", email);
             window.location.href = "https://da5100.github.io/qrda/?session=" + btoa(sK) + "&email=" + btoa(email);
            
         } else if (keyData.blocked == true) {
@@ -58,6 +60,8 @@
           email: email,
           }).then(() => {
             alert("Serial key berhasil diverifikasi. Terima kasih telah menggunakan layanan kami!");
+            sessionStorage.setItem("serial_key", sK);
+            sessionStorage.setItem("email", email);
             window.location.href = "https://da5100.github.io/qrda/?session=" + btoa(sK) + "&email=" + btoa(email);
           }).catch((error) => {
             console.error("Gagal memperbarui status serial key:", error);
