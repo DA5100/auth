@@ -19,7 +19,7 @@ const firebaseConfig = {
                     const user = result.user;
                     console.log("User signed in:", user.displayName);
                     alert(`Welcome ${user.displayName}`);
-                    window.location.href = `https://da5100.github.io/auth/serial/index.html?email=${result.user.email}`;
+                    window.location.href = `https://da5100.github.io/auth/serial/?email=${result.user.email}`;
                 })
                 .catch((error) => {
                     console.error('Error signing in with Google:', error);
