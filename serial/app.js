@@ -1,75 +1,81 @@
-const firebaseConfig = {
-  apiKey: "AIzaSyBnRKitQGBX0u8k4COtDTILYxCJuMf7xzE",
-  authDomain: "authdramaarena.firebaseapp.com",     
-  databaseURL: "https://authdramaarena.firebaseio.com",
-  projectId: "authdramaarena",                      
-  storageBucket: "authdramaarena.appspot.com",      
-  messagingSenderId: "348583435302",             
-  appId: "1:348583435302:web:someUniqueWebId",    
-  measurementId: "G-DGF0CP099H"                  
-};
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const user = firebase.auth().currentUser;
-const db = firebase.firestore();
-const params = new URLSearchParams(window.location.search);
-const sK = params.get("serial_key")
-const keyRef = db.collection("lisensi").doc(sK);
-document.addEventListener("DOMContentLoaded", function(){
-  keyRef.get().then((doc) => {
-  if (!doc.exists) {
-    alert("Serial key tidak ditemukan.");
-    auth.signOut();
-    return;
-  }
+  const firebaseConfig = {
+    apiKey: "AIzaSyBnRKitQGBX0u8k4COtDTILYxCJuMf7xzE",
+    authDomain: "authdramaarena.firebaseapp.com",     
+    databaseURL: "https://authdramaarena.firebaseio.com",
+    projectId: "authdramaarena",                      
+    storageBucket: "authdramaarena.appspot.com",      
+    messagingSenderId: "348583435302",             
+    appId: "1:348583435302:web:someUniqueWebId",    
+    measurementId: "G-DGF0CP099H"                  
+  };
 
-  const keyData = doc.data();
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
-  if (keyData.used) {
-    alert("Maaf, Serial key ini sudah digunakan.");
-    auth.signOut();
-    return;
-  }
+  document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+    const sK = params.get("serial_key");
 
-  if (keyData.blocked) {
-    alert("Maaf, Serial key ini diblokir.");
-    auth.signOut();
-    return;
-  }
+    if (!sK) {
+      alert("Serial key tidak tersedia di URL.");
+      return;
+    }
 
-  if (keyData.email !== user.email || keyData.email == null) {
-    alert("Maaf, Serial key ini tidak cocok dengan akun Anda.");
-    auth.signOut();
-    return;
-  }
-
-  else {
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-    keyRef.update({
-      used: true,
-      usedBy: user.email,
-    }).then(() => {
-      console.log("Serial key berhasil diverifikasi dan digunakan.");
-      alert("Serial key berhasil diverifikasi. Terima kasih telah menggunakan layanan kami!");
-      window.location.href = "https://da5100.github.io/qrda/?session=" + btoa(sK) + "&email=" + btoa(user.email);
-    }).catch((error) => {
-      console.error("Gagal memperbarui status serial key:", error);
-      alert("Gagal memperbarui status serial key.");
-    });
-  } else {
-        console.log("Tidak ada pengguna yang masuk.");
-        alert("Anda harus masuk untuk menggunakan serial key ini.");
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        alert("Anda belum login. Silakan login terlebih dahulu.");
         window.location.href = "https://da5100.github.io/auth/";
+        return;
       }
+
+      const email = user.email;
+      const keyRef = db.collection("lisensi").doc(sK);
+
+      keyRef.get().then((doc) => {
+        if (!doc.exists) {
+          alert("Serial key tidak ditemukan.");
+          auth.signOut();
+          return;
+        }
+
+        const keyData = doc.data();
+
+        if (keyData.used) {
+          alert("Maaf, Serial key ini sudah digunakan.");
+          auth.signOut();
+          return;
+        }
+
+        if (keyData.blocked) {
+          alert("Maaf, Serial key ini diblokir.");
+          auth.signOut();
+          return;
+        }
+
+        if (!keyData.email || keyData.email !== email) {
+          alert("Maaf, Serial key ini tidak cocok dengan akun Anda.");
+          auth.signOut();
+          return;
+        }
+
+        // Everything OK → Mark key as used
+        keyRef.update({
+          used: true,
+          usedBy: email,
+        }).then(() => {
+          alert("Serial key berhasil diverifikasi. Terima kasih telah menggunakan layanan kami!");
+          window.location.href = "https://da5100.github.io/qrda/?session=" + btoa(sK) + "&email=" + btoa(email);
+        }).catch((error) => {
+          console.error("Gagal memperbarui status serial key:", error);
+          alert("Gagal memperbarui status serial key.");
+        });
+
+      }).catch((error) => {
+        console.error("Gagal cek serial key:", error);
+        alert("Gagal verifikasi serial key.");
+      });
+    });
   });
-}
-
-}).catch((error) => {
-  console.error("Gagal cek serial key:", error);
-  alert("Gagal verifikasi serial key.");
-});
-
-})
 
