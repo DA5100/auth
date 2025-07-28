@@ -9,18 +9,14 @@ const firebaseConfig = {
   measurementId: "G-DGF0CP099H"                  
 };
 
-const app = firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
+firebase.initializeApp(firebaseConfig);
 const user = firebase.auth().currentUser;
 const db = firebase.firestore();
 // const inputKey = prompt("Masukan Key:");
 const keyRef = db.collection("lisensi").doc("serialKey");
-let inputKey = document.addEventListener("DOMContentLoaded", function(){
-  const inputKey = document.getElementById("inputKey")
-  return inputKey.FieldValue;
-})
-
-keyRef.get().then((doc) => {
+document.addEventListener("DOMContentLoaded", function(){
+  const inputKey = document.getElementById("inputKey").FieldValue;
+  keyRef.get().then((doc) => {
   if (!doc.exists) {
     alert("Serial key tidak ditemukan.");
     auth.signOut();
@@ -69,3 +65,6 @@ keyRef.get().then((doc) => {
   console.error("Gagal cek serial key:", error);
   alert("Gagal verifikasi serial key.");
 });
+
+})
+
