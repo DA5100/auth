@@ -17,10 +17,12 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const user = firebase.auth().currentUser;
-const inputKey = prompt("Masukkan Serial Key:");
 const db = firebase.firestore();
-const keyRef = db.collection("lisensi").doc(lisensi);
-
+const inputKey = prompt("Masukan Key:");
+const keyRef = db.collection("lisensi").doc("serialKey");
+document.addEventListener("DOMContentLoaded", function(){
+  var inputKey = document.getElementById("inputKey")
+})
 keyRef.get().then((doc) => {
   if (!doc.exists) {
     alert("Serial key tidak ditemukan.");
