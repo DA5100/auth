@@ -24,7 +24,7 @@
         return;
       }
       if (user) {
-        console.log("User is logged in:", user.displayName); 
+        console.log("User is logged in:", user.displayName);
       }
       const email = String(user.email);
       const keyRef = db.collection("lisensi").doc(sK);
@@ -35,7 +35,7 @@
           alert("Serial key tidak ditemukan.");
           auth.signOut();
           return;
-        }
+        } 
         const keyData = doc.data();
         if (keyData.used == true && keyData.email !== email) {
           alert("Maaf, Serial key ini sudah digunakan.");
