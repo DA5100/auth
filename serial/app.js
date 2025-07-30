@@ -28,7 +28,7 @@
       }
       const email = String(user.email);
       const keyRef = db.collection("lisensi").doc(sK);
-      const getUUID = CryptoJS.MD5(crypto.randomUUID()).toString();
+      const emailmd5 = CryptoJS.MD5(email).toString();
 
       keyRef.get().then((doc) => {
         if (!doc.exists) {
@@ -43,9 +43,7 @@
           return;
         } else if (keyData.used == true && keyData.email == email) {
             alert("Email dan serial key sudah terverifikasi.");
-            sessionStorage.setItem("session", getUUID);
-            console.log("Session created. Session ID:", getUUID);
-            window.location.href = "https://da5100.github.io/qrda/?session=" + getUUID;
+            window.location.href = "https://da5100.github.io/qrda/?session=" + emailmd5 + "&serial_key=" + sK;
            
         } else if (keyData.blocked == true) {
             alert("Maaf, Serial key ini diblokir.");
@@ -64,7 +62,7 @@
             alert("Serial key berhasil diverifikasi.");
             sessionStorage.setItem("session", getUUID);
             console.log("Session created. Session ID:", getUUID);
-            window.location.href = "https://da5100.github.io/qrda/?session=" + getUUID;
+            window.location.href = "https://da5100.github.io/qrda/?session=" + emailmd5 + "&serial_key=" + sK;
           }).catch((error) => {
             console.error("Gagal memperbarui status serial key:", error);
             alert("Gagal memperbarui status serial key.");
