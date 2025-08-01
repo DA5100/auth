@@ -18,7 +18,7 @@
     const sK = params.get("serial_key");
     auth.onAuthStateChanged((user) => {
       if (!user) {
-        popup.openPopup("Error", "Anda harus masuk untuk memverifikasi serial key.", "error", "https://da5100.github.io/auth/");
+        openPopup("Error", "Anda harus masuk untuk memverifikasi serial key.", "error", "https://da5100.github.io/auth/");
         // window.location.href = "https://da5100.github.io/auth/";
         return;
       }
