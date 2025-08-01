@@ -21,12 +21,11 @@ const firebaseConfig = {
                 .then((result) => {
                     const user = result.user;
                     console.log("User signed in:", user.displayName);
-                    alert(`Welcome ${user.displayName}`);
-                    window.location.href = `https://da5100.github.io/auth/serial/`;
+                    openPopup("Sukses", "Welcome, " + user.displayName, "success", `https://da5100.github.io/auth/serial/`);
                 })
                 .catch((error) => {
                     console.error('Error signing in with Google:', error);
-                    alert('Error signing in with Google. Please try again.');
+                    openPopup("Error", "Gagal masuk dengan Google: " + error, "error", null);
                 });
             });
         })

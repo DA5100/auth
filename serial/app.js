@@ -32,42 +32,39 @@
       keyRef.get().then((doc) => {
         if (!doc.exists) {
           alert("Serial key tidak ditemukan.");
-          auth.signOut();
+          openPopup("Error", "Serial key tidak ditemukan.", "error", null);
           return;
         } 
         const keyData = doc.data();
         if (keyData.used == true && keyData.email !== email) {
-          alert("Maaf, Serial key ini sudah digunakan.");
-          auth.signOut();
+          openPopup("Error", "Serial key sudah digunakan", "error", null);
           return;
         } else if (keyData.used == true && keyData.email == email) {
-            alert("Email dan serial key sudah terverifikasi.");
+            openPopup("Sukses", "Email & Serial key berhasil diverifikasi.", "success", null);
             window.location.href = "https://da5100.github.io/qrda/?session=" + emailmd5 + "&serial_key=" + sK;
            
         } else if (keyData.blocked == true) {
-            alert("Maaf, Serial key ini diblokir.");
-            auth.signOut();
+            openPopup("Error", "Serial key ini diblokir.", "error", null);
             return;
         } 
         else if (keyData.email && keyData.email !== email) {
-            alert("Maaf, Serial key ini tidak cocok dengan akun Anda.");
-            auth.signOut();
+            openPopup("Error", "Serial key ini tidak cocok dengan akun Anda.", "error", null);
             return;
         } else { 
         keyRef.update({
           used: true,
           email: email,
           }).then(() => {
-            alert("Serial key berhasil diverifikasi.");
-            window.location.href = "https://da5100.github.io/qrda/?session=" + emailmd5 + "&serial_key=" + sK;
+            openPopup("Sukses", "Serial key berhasil diverifikasi.", "success", "https://da5100.github.io/qrda/?session=" + emailmd5 + "&serial_key=" + sK);
           }).catch((error) => {
             console.error("Gagal memperbarui status serial key:", error);
-            alert("Gagal memperbarui status serial key.");
+            openPopup("Error", "Gagal memperbarui status serial key: " + error, "error", null);
           });
         }
       }).catch((error) => {
         console.error("Gagal cek serial key:", error);
         alert("Gagal verifikasi serial key.");
+        openPopup("Error", "Gagal verifikasi serial key: " + error, "error", null);
       });
     });
   });
