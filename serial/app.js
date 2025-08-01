@@ -1,4 +1,3 @@
-
   const firebaseConfig = {
             apiKey: "AIzaSyCBeFJtPKEMURY-iUDUR4I6gWKjmlTk_3E",
             authDomain: "authdramaarena.firebaseapp.com",     
@@ -19,8 +18,8 @@
     const sK = params.get("serial_key");
     auth.onAuthStateChanged((user) => {
       if (!user) {
-        alert("Anda belum login. Silakan login terlebih dahulu.");
-        window.location.href = "https://da5100.github.io/auth/";
+        popup.openPopup("Error", "Anda harus masuk untuk memverifikasi serial key.", "error", "https://da5100.github.io/auth/");
+        // window.location.href = "https://da5100.github.io/auth/";
         return;
       }
       if (user) {
@@ -60,8 +59,6 @@
           email: email,
           }).then(() => {
             alert("Serial key berhasil diverifikasi.");
-            sessionStorage.setItem("session", getUUID);
-            console.log("Session created. Session ID:", getUUID);
             window.location.href = "https://da5100.github.io/qrda/?session=" + emailmd5 + "&serial_key=" + sK;
           }).catch((error) => {
             console.error("Gagal memperbarui status serial key:", error);

@@ -10,10 +10,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/md5.min.js" integrity="sha512-ENWhXy+lET8kWcArT6ijA6HpVEALRmvzYBayGL6oFWl96exmq8Fjgxe2K6TAblHLP75Sa/a1YjHpIZRt+9hGOQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/uuidv4@6.2.13/build/lib/uuidv4.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/gh/eclipseteamdev-1/my-cdn-resources@main/popup.min.js"></script>
     <script src="app.js"></script>
     <title>Input Serial</title>
 </head>
 <body class="bg-gray-900 text-white">
+    <div id="popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div id="popup-content" class="rounded-lg p-6 w-80 text-white shadow-lg">
+      <div class="flex items-center mb-3">
+        <h2 id="popup-title" class="text-xl font-bold">Title</h2>
+      </div>
+      <p id="popup-message" class="mb-4">Message goes here.</p>
+      <div class="flex justify-end space-x-2">
+        <button id="close-btn" onclick="closePopup()" class="bg-white text-gray-800 px-4 py-2 rounded hover:bg-gray-200">
+          Close
+        </button>
+    </div>
+  </div>
     <div class="min-h-screen flex items-center justify-center">
         <div class="bg-gray-800 shadow-xl rounded-lg p-8 w-full max-w-md">
             <img src="https://github.com/DA5100/DA5100.github.io/blob/d7ef98b2c4ea8acbd9ae92e2a4ee62d5e332822a/assets/img/logo-premium.png?raw=true" alt="Drama Arena 5100 Logo" class="w-20 h-20 mb-6 rounded-full shadow">
