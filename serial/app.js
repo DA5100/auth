@@ -26,7 +26,7 @@
         console.log("User is logged in:", user.displayName);
       }
       const email = String(user.email);
-      const rawKey = sK.replace(/-/g, "").toUpperCase();
+      const rawKey = sK.trim().replace(/[^A-Za-z0-9]/g, "").toUpperCase();
       const keyRef = db.collection("lisensi").doc(sK);
       const emailmd5 = CryptoJS.MD5(email).toString();
 
