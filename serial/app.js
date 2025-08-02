@@ -27,10 +27,6 @@
       }
       const email = String(user.email);
       const rawKey = sK.replace(/-/g, "").toUpperCase();
-      if (rawKey.length !== 11 || !/^[A-Z0-9]+$/.test(rawKey)) {
-        openPopup("Error", "Serial key tidak valid. Pastikan formatnya benar.", "error", null);
-        return;
-      }
       const keyRef = db.collection("lisensi").doc(sK);
       const emailmd5 = CryptoJS.MD5(email).toString();
 
