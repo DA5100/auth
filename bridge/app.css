@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    margin: auto;
+    background-color: gray;
+    align-items: center;
+}
+
+h1, p {
+    align-items: center;
+    justify-content: center;
+}
