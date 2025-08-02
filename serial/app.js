@@ -27,7 +27,7 @@
       }
       const email = String(user.email);
       const rawKey = sK.trim().replace(/[^A-Za-z0-9]/g, "").toUpperCase();
-      const keyRef = db.collection("lisensi").doc(sK);
+      const keyRef = db.collection("lisensi").doc(rawKey);
       const emailmd5 = CryptoJS.MD5(email).toString();
 
       keyRef.get().then((doc) => {
