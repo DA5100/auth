@@ -110,7 +110,6 @@ const firebaseConfig = {
                         class="serial-key"
                         placeholder="XXXXX-XXXXX"
                         maxlength="11"
-                        oninput="formatKey(this)"
                         autocomplete="off"
                         spellcheck="false"
                         required
