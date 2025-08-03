@@ -327,7 +327,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formatKey(this);
      });
     }
-    const btn = ocument.getElementById("serial-key-btn");
+    const btn = document.getElementById("serial-key-btn");
     if (btn) {
         document.getElementById("serial-key-btn").addEventListener("click", getSerialkey);
     }
