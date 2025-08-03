@@ -321,10 +321,18 @@ const firebaseConfig = {
                         }
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("input-serial").addEventListener("input", function () {
-    formatKey(this);
-  });
-  document.getElementById("serial-key-btn").addEventListener("click", getSerialkey);
+    const inputelement =  document.getElementById("input-serial");
+    if (inputelement){
+    inputelement.addEventListener("input", function () {
+        formatKey(this);
+     });
+    }
+    const btn = ocument.getElementById("serial-key-btn");
+    if (btn) {
+        document.getElementById("serial-key-btn").addEventListener("click", getSerialkey);
+    }
+ 
+  
 });
 
        
