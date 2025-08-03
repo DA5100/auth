@@ -6,23 +6,25 @@
     <title>Drama Arena 5100 - Auth</title>
     <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/DA5100/qrda@main/src/scripts/popup.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="login-google.js"></script>
+    <script src="app.js"></script>
+    <style id="dynamic"></style>
 </head>
-<body class="bg-gradient-to-br from-indigo-200 via-pink-100 to-yellow-100 min-h-screen flex items-center justify-center">
-    <div class="bg-white rounded-2xl shadow-2xl p-10 w-full max-w-md flex flex-col items-center border border-gray-200">
-        <img src="https://github.com/DA5100/DA5100.github.io/blob/d7ef98b2c4ea8acbd9ae92e2a4ee62d5e332822a/assets/img/logo-premium.png?raw=true" alt="Drama Arena 5100 Logo" class="w-20 h-20 mb-6 rounded-full shadow">
-        <h1 class="text-3xl font-extrabold mb-2 text-indigo-700 tracking-tight">Drama Arena 5100</h1>
-        <p class="text-gray-500 mb-8 text-center text-lg">Sign in with Google to join the arena.</p>
-        <button id="tombol" class="flex items-center gap-3 px-7 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow hover:bg-indigo-700 transition">
-            <svg class="w-6 h-6" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5h-1.9V20H24v8h11.2c-1.5 4-5.2 6.9-9.2 6.9-5.5 0-10-4.5-10-10s4.5-10 10-10c2.4 0 4.6.9 6.3 2.3l6.2-6.2C34.5 7.6 29.6 5.5 24 5.5 13.5 5.5 5 14 5 24.5S13.5 43.5 24 43.5c9.5 0 17.5-7.7 17.5-17.2 0-1.2-.1-2.3-.3-3.3z"/><path fill="#FF3D00" d="M6.3 14.7l6.8 5c1.9-3.7 5.7-6.2 10-6.2 2.4 0 4.6.9 6.3 2.3l6.2-6.2C34.5 7.6 29.6 5.5 24 5.5c-6.6 0-12.2 3.8-15.1 9.2z"/><path fill="#4CAF50" d="M24 43.5c5.2 0 9.7-1.7 12.9-4.7l-6.1-5c-1.7 1.2-3.9 2-6.8 2-4 0-7.7-2.9-9.2-6.9l-6.8 5c2.9 5.4 8.5 9.2 15 9.2z"/><path fill="#1976D2" d="M43.6 20.5h-1.9V20H24v8h11.2c-.7 2-2.1 3.8-4.1 5l6.1 5c3.6-3.3 5.8-8.1 5.8-13.5 0-1.2-.1-2.3-.3-3.3z"/></svg>
-            Sign In with Google
-        </button>
-        <div class="mt-8 text-xs text-gray-400 text-center">
-            &copy; 2024 Drama Arena 5100
-        </div>
+<body>
+    <div id="main-container">
+        
     </div>
+    <div class="login-container">
+    <div class="login-box">
+      <img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Avatar" class="avatar">
+      <h2>Sign in</h2>
+      <p>to continue to My App</p>
+      
+      <button onclick="submitLogin()">Next</button>
+    </div>
+  </div>
 </body>
 </html>
