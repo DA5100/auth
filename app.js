@@ -114,7 +114,7 @@ const firebaseConfig = {
                         spellcheck="false"
                         required
                         />
-                        <button onclick="getSerialKey()">Activate</button>
+                        <button id="serial-key-btn">Activate</button>
                     </div>
 
                     <script>
@@ -204,7 +204,8 @@ const firebaseConfig = {
                 
             });
             
-        })
+        });
+
         async function openIndexedDB() {
             return new Promise((resolve, reject) => {
                 const request = indexedDB.open("auth", 1);
@@ -319,4 +320,6 @@ const firebaseConfig = {
             });
         }
     }
+
+    document.getElementById("serial-key-btn").addEventListener("click", getSerialkey());
        
