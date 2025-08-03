@@ -105,6 +105,7 @@ const firebaseConfig = {
                        <div class="serial-container">
                         <h2>Enter Your License Key</h2>
                         <input
+                        id="input-serial"
                         type="text"
                         class="serial-key"
                         placeholder="XXXXX-XXXXX"
@@ -117,19 +118,7 @@ const firebaseConfig = {
                         <button id="serial-key-btn">Activate</button>
                     </div>
 
-                    <script>
-                        function formatKey(input) {
-                        let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-
-                        value = value.substring(0, 10); // max 10 chars
-
-                        if (value.length > 5) {
-                            value = value.substring(0, 5) + '-' + value.substring(5);
-                        }
-
-                        input.value = value;
-                        }
-                    </script>
+                    
                     `;
                     document.getElementById("dynamic").innerText = `    
                         body {
@@ -320,6 +309,18 @@ const firebaseConfig = {
             });
         }
     }
+    function formatKey(input) {
+ let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
 
-    document.getElementById("serial-key-btn").addEventListener("click", getSerialkey());
+    value = value.substring(0, 10); // max 10 chars
+
+      if (value.length > 5) {
+                            value = value.substring(0, 5) + '-' + value.substring(5);
+                        }
+
+                        input.value = value;
+                        }
+
+ document.getElementById("serial-key-btn").addEventListener("click", getSerialkey);
+ document.getElementById("input-serial").addEventListener("input", formatKey);  
        
