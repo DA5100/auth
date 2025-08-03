@@ -134,9 +134,6 @@ if (document.getElementById("login-container")) {
     document.getElementById("login-container").remove();
     const container = document.getElementById("main-container");
 
-// Clear existing content (if needed)
-container.innerHTML = "";
-
 // Create container div
 const serialContainer = document.createElement("div");
 serialContainer.className = "serial-container";
