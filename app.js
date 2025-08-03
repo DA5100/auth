@@ -131,7 +131,7 @@ main.appendChild(loginContainer);
                 
                 } else {
                     // Get the container where you'll insert the UI
-                    document.getElementById("login-container").remove();
+                    
 const container = document.getElementById("main-container");
 
 // Clear existing content (if needed)
