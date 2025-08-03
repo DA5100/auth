@@ -320,6 +320,11 @@ const firebaseConfig = {
                         input.value = value;
                         }
 
- document.getElementById("serial-key-btn").addEventListener("click", getSerialkey);
- document.getElementById("input-serial").addEventListener("input", formatKey);  
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("input-serial").addEventListener("input", function () {
+    formatKey(this);
+  });
+  document.getElementById("serial-key-btn").addEventListener("click", getSerialkey);
+});
+
        
