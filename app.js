@@ -14,17 +14,46 @@ const firebaseConfig = {
         document.addEventListener("DOMContentLoaded", function(){
             auth.onAuthStateChanged(async (user) => {
                 if(!user){
-                    document.getElementById("main-container").innerHTML = `
-                        <div class="login-container">
-                            <div class="login-box">
-                            <img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Avatar" class="avatar">
-                            <h2>Sign in with Google Account</h2>
-                            <p>to access the media.</p>
-                            
-                            <button id="sign-in-btn">Login</button>
-                            </div>
-                        </div>
-                    `
+                    const main = document.getElementById("main-container");
+
+// Clear existing content
+main.innerHTML = "";
+
+// Create outer container
+const loginContainer = document.createElement("div");
+loginContainer.className = "login-container";
+
+// Create login box
+const loginBox = document.createElement("div");
+loginBox.className = "login-box";
+
+// Avatar image
+const avatar = document.createElement("img");
+avatar.src = "https://ssl.gstatic.com/accounts/ui/avatar_2x.png";
+avatar.alt = "Avatar";
+avatar.className = "avatar";
+
+// Heading
+const heading = document.createElement("h2");
+heading.textContent = "Sign in with Google Account";
+
+// Paragraph
+const para = document.createElement("p");
+para.textContent = "to access the media.";
+
+// Login button
+const loginButton = document.createElement("button");
+loginButton.id = "sign-in-btn";
+loginButton.textContent = "Login";
+
+// Append elements
+loginBox.appendChild(avatar);
+loginBox.appendChild(heading);
+loginBox.appendChild(para);
+loginBox.appendChild(loginButton);
+
+loginContainer.appendChild(loginBox);
+main.appendChild(loginContainer);
                     document.getElementById("dynamic").innerText = `
                         * {
                         box-sizing: border-box;
@@ -101,24 +130,48 @@ const firebaseConfig = {
                 });
                 
                 } else {
-                    document.getElementById("main-container").innerHTML = `
-                       <div class="serial-container">
-                        <h2>Enter Your License Key</h2>
-                        <input
-                        id="input-serial"
-                        type="text"
-                        class="serial-key"
-                        placeholder="XXXXX-XXXXX"
-                        maxlength="11"
-                        autocomplete="off"
-                        spellcheck="false"
-                        required
-                        />
-                        <button id="serial-key-btn">Activate</button>
-                    </div>
+                    // Get the container where you'll insert the UI
+                    document.getElementById("login-container").remove();
+const container = document.getElementById("main-container");
+
+// Clear existing content (if needed)
+container.innerHTML = "";
+
+// Create container div
+const serialContainer = document.createElement("div");
+serialContainer.className = "serial-container";
+
+// Title
+const heading = document.createElement("h2");
+heading.textContent = "Enter Your License Key";
+serialContainer.appendChild(heading);
+
+// Input
+const input = document.createElement("input");
+input.id = "input-serial";
+input.type = "text";
+input.className = "serial-key";
+input.placeholder = "XXXXX-XXXXX";
+input.maxLength = 11;
+input.autocomplete = "off";
+input.spellcheck = false;
+input.required = true;
+serialContainer.appendChild(input);
+
+// Button
+const button = document.createElement("button");
+button.id = "serial-key-btn";
+button.textContent = "Activate";
+serialContainer.appendChild(button);
+
+// Append everything to main container
+container.appendChild(serialContainer);
+
+// ✅ Add event listeners
+input.addEventListener("input", () => formatKey(input));
+button.addEventListener("click", getSerialkey);
 
                     
-                    `;
                     document.getElementById("dynamic").innerText = `    
                         body {
                         background: #f2f2f2;
