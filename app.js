@@ -10,6 +10,7 @@ const firebaseConfig = {
         };
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
+        const db = firebase.firestore();
         const provider = new firebase.auth.GoogleAuthProvider();
         document.addEventListener("DOMContentLoaded", function(){
             auth.onAuthStateChanged(async (user) => {
