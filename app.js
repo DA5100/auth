@@ -16,9 +16,6 @@ const firebaseConfig = {
                 if(!user){
                     const main = document.getElementById("main-container");
 
-// Clear existing content
-main.innerHTML = "";
-
 // Create outer container
 const loginContainer = document.createElement("div");
 loginContainer.className = "login-container";
@@ -121,7 +118,8 @@ main.appendChild(loginContainer);
                     .then((result) => {
                         const user = result.user;
                         console.log("User signed in:", user.displayName);
-                        openPopup("Sukses", "Welcome, " + user.displayName, "success", `https://da5100.github.io/auth/serial/`);
+                        openPopup("Sukses", "Welcome, " + user.displayName, "success", "");
+                        
                     })
                     .catch((error) => {
                         console.error('Error signing in with Google:', error);
@@ -131,8 +129,9 @@ main.appendChild(loginContainer);
                 
                 } else {
                     // Get the container where you'll insert the UI
-                    
-const container = document.getElementById("main-container");
+if (document.getElementById("login-container")) {
+    document.getElementById("login-container").remove();
+    const container = document.getElementById("main-container");
 
 // Clear existing content (if needed)
 container.innerHTML = "";
@@ -170,8 +169,9 @@ container.appendChild(serialContainer);
 // ✅ Add event listeners
 input.addEventListener("input", () => formatKey(input));
 button.addEventListener("click", getSerialkey);
+} else {
 
-                    
+}               
                     document.getElementById("dynamic").innerText = `    
                         body {
                         background: #f2f2f2;
