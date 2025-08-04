@@ -33,7 +33,7 @@
           }
           console.log("User is logged in:", user.displayName);
           const email = String(user.email);
-          const key = await getItem("serial_keys", user.uid);
+          const key = await getItem("serial_keys", user.uid, "serial");
           const jwt = btoa(crypto.randomUUID());
           const keyRef = db.collection("lisensi").doc(key);
           const usersData = db.collection("users");
@@ -117,7 +117,7 @@ async function getItem(store, key, valueName) {
         req.onsuccess = () => {
             const result = req.result;
             if (result) {
-                resolve(result+`.${valueName}`); // FIXED: 'serial' changed to 'jwt' (matches stored data)
+                resolve(result[valueName]); // FIXED: 'serial' changed to 'jwt' (matches stored data)
             } else {
                 resolve(null);
             }
