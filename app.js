@@ -163,8 +163,10 @@ const firebaseConfig = {
                         const user = result.user;
                         console.log("User signed in:", user.displayName);
                         openPopup("Sukses", "Welcome, " + user.displayName, "success", "");
-                        document.getElementById("login-container").remove();
                         createSerial();
+                        if (document.getElementById("login-container")) {
+                            document.getElementById("login-container").remove();
+                        }
                         
                     })
                     .catch((error) => {
@@ -330,7 +332,7 @@ if (document.getElementById("login-container")) {
                     return;
                     } else if (keyData.used == true && keyData.email == email) {
                         
-                        openPopup("Sukses", "Email & Serial key berhasil diverifikasi.", "success", "https://da5100.github.io/qrda/verifikasi");
+                        openPopup("Sukses", "Email & Serial key berhasil diverifikasi.", "success", "https://da5100.github.io/auth/verifikasi");
                     } else if (keyData.blocked == true) {
                        
                         openPopup("Error", "Serial key ini diblokir.", "error", null);
