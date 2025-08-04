@@ -17,10 +17,29 @@
     <link rel="stylesheet" href="./app.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Verifikasi Serial Key.</h1><br/>
-        <p>Status: </p><p id="status-log"></p><br/>
-        <button onclick="history.back()">Go back.</a>
-    </div>
+      <!-- Loading -->
+  <div class="status active" id="loading">
+    <svg class="icon spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-opacity="0.25"/>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"/>
+    </svg>
+    <div class="message">Memverifikasi...</div>
+  </div>
+
+  <!-- Success -->
+  <div class="status" id="success">
+    <svg class="icon success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2">
+      <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="message">Verifikasi Berhasil!</div>
+  </div>
+
+  <!-- Error -->
+  <div class="status" id="error">
+    <svg class="icon error-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="message">Verifikasi Gagal!</div>
+  </div>
 </body>
 </html>

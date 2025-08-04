@@ -383,17 +383,18 @@ if (document.getElementById("login-container")) {
             });
         }
     }
+    
     function formatKey(input) {
- let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
 
     value = value.substring(0, 10); // max 10 chars
 
-      if (value.length > 5) {
-                            value = value.substring(0, 5) + '-' + value.substring(5);
-                        }
+    if (value.length > 5) {
+        value = value.substring(0, 5) + '-' + value.substring(5);
+    }
 
-                        input.value = value;
-                        }
+    input.value = value;
+    }
 
 document.addEventListener("DOMContentLoaded", () => {
     const inputelement =  document.getElementById("input-serial");

@@ -66,40 +66,63 @@
 
   document.addEventListener("DOMContentLoaded", function() {
     auth.onAuthStateChanged((user) => {
+      const loading = document.getElementById("loading");
+      const success = document.getElementById("success");
+      const error = document.getElementById("error");
+
       if (!user) {
+        loading.classList.remove("active");
+        error.classList.remove("active");
         openPopup("Error", "Anda harus masuk untuk memverifikasi serial key.", "error", "https://da5100.github.io/auth/");
         return;
       }
       if (user) {
-        console.log("User is logged in:", user.displayName);
-      }
-      const email = String(user.email);
-      const setLog = document.getElementById("status-log");
-      const key = await getItem("serial_keys", user.uid);
-      const jwt = btoa(crypto.randomUUID());
-      const keyRef = db.collection("lisensi").doc(key);
-      const usersData = db.collection("users");
-
-      keyRef.get().then(async (Keydoc) => {
-        if(Keydoc.exists) {
-          usersData.doc(user.uid).get().then(async (userDoc) => {
-            if (userDoc.exists || Keydoc.exists) {
-              const userData = userDoc.data();
-              if (userData.loggedIn == true && userData.serialKey == key) {
-                setLog.innerHTML = "Anda sudah masuk sebagai: " + userData.email;
-                await setItem("jwt", user.uid, jwt)
-                openPopup("Sukses", "Anda sudah masuk sebagai: " + userData.displayName, "success", "https://da5100.github.io/qrda/?session="+jwt)
-              } else {
-                console.log("User data not found or not logged in.");
-              }
-            } else {
-              console.log("User document does not exist.");
-            }
-          });
-        }else {
-          console.log("Serial key document does not exist.");
+        window.onload = () => {
+          loading.classList.add("active");
+          success.classList.remove("active"); 
+          error.classList.remove("active");
         }
-      })
+        console.log("User is logged in:", user.displayName);
+        const email = String(user.email);
+        const key = await getItem("serial_keys", user.uid);
+        const jwt = btoa(crypto.randomUUID());
+        const keyRef = db.collection("lisensi").doc(key);
+        const usersData = db.collection("users");
+
+        keyRef.get().then(async (Keydoc) => {
+          if(Keydoc.exists) {
+            usersData.doc(user.uid).get().then(async (userDoc) => {
+              if (userDoc.exists || Keydoc.exists) {
+                const userData = userDoc.data();
+                if (userData.loggedIn == true && userData.serialKey == key) {
+                  console.log("User data found:", userData);
+                  loading.classList.remove("active");
+                  error.classList.add("active");
+                  await setItem("jwt", user.uid, jwt)
+                  openPopup("Sukses", "Anda sudah masuk sebagai: " + userData.displayName, "success", "https://da5100.github.io/qrda/?session="+jwt)
+                } else {
+                  loading.classList.remove("active");
+                  error.classList.remove("active");
+                  console.log("User data not found or not logged in.");
+                }
+              } else {
+                loading.classList.remove("active");
+                error.classList.add("active");
+                console.log("User document does not exist.");
+              }
+            });
+          } else {
+            loading.classList.remove("active");
+            error.classList.add("active");
+            console.log("Serial key document does not exist.");
+          }
+        })
+        }
+      else {
+        loading.classList.remove("active");
+        error.classList.remove("active");
+        console.log("No user is logged in.");
+      }   
     });
   });
 
