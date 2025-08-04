@@ -334,8 +334,16 @@ if (document.getElementById("login-container")) {
                     openPopup("Error", "Serial key sudah digunakan", "error", null);
                     return;
                     } else if (keyData.used == true && keyData.email == email) {
-                        
-                        openPopup("Sukses", "Email & Serial key berhasil diverifikasi.", "success", "https://da5100.github.io/auth/verifikasi");
+                    openPopup("Sukses", "Email & Serial key berhasil diverifikasi.", "success", "https://da5100.github.io/auth/verifikasi");
+                    usersData.doc(user.uid).set({
+                        loggedIn: true,
+                        serialKey: serial,
+                    }).then(() => {
+                        setItem(user.uid, serial)
+                    }).catch((error) => {
+                        console.error("Gagal memperbarui data pengguna:", error);
+                        openPopup("Error", "Gagal memperbarui data pengguna: " + error, "error", null);
+                    });
                     } else if (keyData.blocked == true) {
                        
                         openPopup("Error", "Serial key ini diblokir.", "error", null);
