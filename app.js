@@ -313,7 +313,7 @@ if (document.getElementById("login-container")) {
                 const email = String(user.email);
                 const keyRef = db.collection("lisensi").doc(serial);
                 const usersData = db.collection("users")
-                const emailmd5 = CryptoJS.MD5(email).toString();
+                // const emailmd5 = CryptoJS.MD5(email).toString();
 
                 keyRef.get().then((doc) => {
                 const keyData = doc.data();
