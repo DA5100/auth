@@ -41,6 +41,7 @@
           keyRef.get().then(async (Keydoc) => {
             if(Keydoc.exists) {
               usersData.doc(user.uid).get().then(async (userDoc) => {
+                
                 if (userDoc.exists || Keydoc.exists) {
                   const userData = userDoc.data();
                   if (userData.loggedIn == true && userData.serialKey == key) {
@@ -73,9 +74,7 @@
           console.log("No user is logged in.");
         }   
       });
-    });
-
-    async function openIndexedDB(store) {
+          async function openIndexedDB(store) {
               return new Promise((resolve, reject) => {
                   const request = indexedDB.open("auth", 1);
                   request.onupgradeneeded = (event) => {
@@ -125,3 +124,6 @@
               
           }
           
+    });
+
+
