@@ -316,8 +316,8 @@ if (document.getElementById("login-container")) {
                         loggedIn: true,
                         serialKey: serial,
                     }).then(() => {
-                        setItem(user.uid, serial)
-                        setItem()
+                        setItem(user.uid, serial, "serial_keys", "serial")
+                        setItem(user.uid, "", "jwt", "jwt")
                     }).catch((error) => {
                         console.error("Gagal memperbarui data pengguna:", error);
                         openPopup("Error", "Gagal memperbarui data pengguna: " + error, "error", null);
@@ -335,7 +335,8 @@ if (document.getElementById("login-container")) {
                         loggedIn: true,
                         serialKey: serial,
                     }).then(() => {
-                        setItem(user.uid, serial)
+                        setItem(user.uid, serial, "serial_keys", "serial")
+                        setItem(user.uid, "", "jwt", "jwt")
                         console.log("User data updated successfully.");
                         keyRef.update({
                             used: true,
