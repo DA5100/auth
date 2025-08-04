@@ -11,7 +11,7 @@
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const db = firebase.firestore();
+    const db = firebase.firestAore();
 
     document.addEventListener("DOMContentLoaded", async function() {
       auth.onAuthStateChanged(async (user) => {
@@ -75,55 +75,54 @@
         }   
       });
           async function openIndexedDB(store) {
-              return new Promise((resolve, reject) => {
-                  const request = indexedDB.open("auth", 1);
-                  request.onupgradeneeded = (event) => {
-                      const db = event.target.result;
-                      if (!db.objectStoreNames.contains(store)) {
-                          db.createObjectStore(store, { keyPath });
-                      }
-                  };
-                  request.onsuccess = () => {
-                      resolve(request.result);
-                  };
-                  request.onerror = () => {
-                      reject(request.error);
-                  };
-              });
-          }
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("auth", 1);
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(store)) {
+                db.createObjectStore(store, { keyPath: "uid" }); // FIXED: added keyPath
+            }
+        };
+        request.onsuccess = () => {
+            resolve(request.result);
+        };
+        request.onerror = () => {
+            reject(request.error);
+        };
+    });
+}
 
-          async function setItem(store, key, value) {
-              const db = await openIndexedDB(store, dbkey);
-              return new Promise((resolve, reject) => {
-                  const tx = db.transaction(store, "readwrite");
-                  const store = tx.objectStore(store);
-                  const req = store.put({uid: key, jwt: value});
+async function setItem(store, key, value) {
+    const db = await openIndexedDB(store); // FIXED: removed undefined 'dbkey'
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(store, "readwrite");
+        const objectStore = tx.objectStore(store); // FIXED: renamed to avoid shadowing
+        const req = objectStore.put({ uid: key, jwt: value }); // FIXED: matches keyPath
 
-                  req.onsuccess = resolve(true);
-                  req.onerror = reject(req.error);
-              })
-          }
+        req.onsuccess = () => resolve(true);
+        req.onerror = () => reject(req.error);
+    });
+}
 
-          async function getItem(store, key) {
-              const db = await openIndexedDB(store);
-              return new Promise((resolve, reject) => {
-                  const tx = db.transaction(store, "readonly");
-                  const store = tx.objectStore(store);
-                  const req = store.get(key);
+async function getItem(store, key) {
+    const db = await openIndexedDB(store);
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(store, "readonly");
+        const objectStore = tx.objectStore(store); // FIXED: renamed to avoid shadowing
+        const req = objectStore.get(key);
 
-                  req.onsuccess = () => {
-                    const res = req.result;
-                    if(res){
-                      resolve(result.serial);
-                    } else {
-                      resolve(null);
-                    }
-                  };
-                  req.onerror = reject(req.error)    
-              })
-              
-          }
-          
+        req.onsuccess = () => {
+            const result = req.result;
+            if (result) {
+                resolve(result.jwt); // FIXED: 'serial' changed to 'jwt' (matches stored data)
+            } else {
+                resolve(null);
+            }
+        };
+        req.onerror = () => reject(req.error);
+    });
+}
+
     });
 
 
