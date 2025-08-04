@@ -74,13 +74,16 @@
           console.log("No user is logged in.");
         }   
       });
-          async function openIndexedDB(store) {
+  async function openIndexedDB(store) {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("auth", 1);
         request.onupgradeneeded = (event) => {
             const db = event.target.result;
-            if (!db.objectStoreNames.contains(store)) {
-                db.createObjectStore(store, { keyPath: "uid" }); // FIXED: added keyPath
+            if (!db.objectStoreNames.contains("serial_keys")) {
+                db.createObjectStore("serial_keys", { keyPath: "uid" }); // FIXED: added keyPath
+            }
+            if (!db.objectStoreNames.contains("jwt")) {
+                db.createObjectStore("jwt", { keyPath: "uid" }); // FIXED: added keyPath
             }
         };
         request.onsuccess = () => {
@@ -114,7 +117,7 @@ async function getItem(store, key, valueName) {
         req.onsuccess = () => {
             const result = req.result;
             if (result) {
-                resolve(result.serial); // FIXED: 'serial' changed to 'jwt' (matches stored data)
+                resolve(result+`.${valueName}`); // FIXED: 'serial' changed to 'jwt' (matches stored data)
             } else {
                 resolve(null);
             }
