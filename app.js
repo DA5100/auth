@@ -269,6 +269,9 @@ if (document.getElementById("login-container")) {
                     if (!db.objectStoreNames.contains("serial_keys")) {
                         db.createObjectStore("serial_keys", { keyPath: "uid" });
                     }
+                    if (!db.objectStoreNames.contains("jwt")) {
+                        db.createObjectStore("jwt", { keyPath: "uid" });
+                    }
                 };
                 request.onsuccess = () => {
                     resolve(request.result);
@@ -278,32 +281,6 @@ if (document.getElementById("login-container")) {
                 };
             });
         }
-
-        async function setItem(key, value) {
-            const db = await openIndexedDB();
-            return new Promise((resolve, reject) => {
-                const tx = db.transaction("serial_keys", "readwrite");
-                const store = tx.objectStore("serial_keys");
-                const req = store.put({uid: key, serial: value});
-
-                req.onsuccess = resolve(true);
-                req.onerror = reject(req.error);
-            })
-        }
-
-        async function getItem(key) {
-            const db = await openIndexedDB();
-            return new Promise((resolve, reject) => {
-                const tx = db.transaction("serial_keys", "readonly");
-                const store = tx.objectStore("serial_keys");
-                const req = store.get(key);
-
-                req.onsuccess = resolve(req.result);
-                req.onerror = reject(req.error)    
-            })
-            
-        }
-        
 
         function getSerialkey() {
             const raw = document.querySelector('.serial-key').value;
@@ -340,6 +317,7 @@ if (document.getElementById("login-container")) {
                         serialKey: serial,
                     }).then(() => {
                         setItem(user.uid, serial)
+                        setItem()
                     }).catch((error) => {
                         console.error("Gagal memperbarui data pengguna:", error);
                         openPopup("Error", "Gagal memperbarui data pengguna: " + error, "error", null);
@@ -382,6 +360,31 @@ if (document.getElementById("login-container")) {
                 });
             });
         }
+                async function setItem(key, value, store, valueName = "serial") {
+            const db = await openIndexedDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(store, "readwrite");
+                const store = tx.objectStore(store);
+                const req = store.put({uid: key, [valueName]: value});
+
+                req.onsuccess = resolve(true);
+                req.onerror = reject(req.error);
+            })
+        }
+
+        async function getItem(key, store, valueName = "serial") {
+            const db = await openIndexedDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(store, "readonly");
+                const store = tx.objectStore(store);
+                const req = store.get(key);
+
+                req.onsuccess = resolve(req.result[valueName]);
+                req.onerror = reject(req.error)    
+            })
+            
+        }
+        
     }
     
     function formatKey(input) {
