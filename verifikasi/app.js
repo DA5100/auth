@@ -64,8 +64,8 @@
         }
         
 
-  document.addEventListener("DOMContentLoaded", function() {
-    auth.onAuthStateChanged((user) => {
+  document.addEventListener("DOMContentLoaded", async function() {
+    auth.onAuthStateChanged(async (user) => {
       const loading = document.getElementById("loading");
       const success = document.getElementById("success");
       const error = document.getElementById("error");
@@ -77,7 +77,7 @@
         return;
       }
       if (user) {
-        window.onload = () => {
+        window.onload = async () => {
           loading.classList.add("active");
           success.classList.remove("active"); 
           error.classList.remove("active");
