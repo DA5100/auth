@@ -17,6 +17,7 @@ const firebaseConfig = {
             const container = document.getElementById("main-container");
             const serialContainer = document.createElement("div");
             serialContainer.className = "serial-container";
+            serialContainer.id = "serial-container";
 
             // Title
             const heading = document.createElement("h2");
@@ -56,6 +57,7 @@ const firebaseConfig = {
             // Create outer container
             const loginContainer = document.createElement("div");
             loginContainer.className = "login-container";
+            loginContainer.id = "login-container";
 
             // Create login box
             const loginBox = document.createElement("div");
@@ -164,8 +166,9 @@ const firebaseConfig = {
                         console.log("User signed in:", user.displayName);
                         openPopup("Sukses", "Welcome, " + user.displayName, "success", null);
                         createSerial();
-                        if (document.getElementById("login-container")) {
+                        if (document.getElementBycId("login-container")) {
                             document.getElementById("login-container").remove();
+                            createSerial();
                         }
                         
                     })
