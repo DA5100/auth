@@ -11,7 +11,7 @@
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const db = firebase.firestAore();
+    const db = firebase.firestore();
 
     document.addEventListener("DOMContentLoaded", async function() {
       auth.onAuthStateChanged(async (user) => {
