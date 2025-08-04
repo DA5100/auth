@@ -104,7 +104,7 @@ async function setItem(store, key, value) {
     });
 }
 
-async function getItem(store, key) {
+async function getItem(store, key, valueName) {
     const db = await openIndexedDB(store);
     return new Promise((resolve, reject) => {
         const tx = db.transaction(store, "readonly");
@@ -114,7 +114,7 @@ async function getItem(store, key) {
         req.onsuccess = () => {
             const result = req.result;
             if (result) {
-                resolve(result.jwt); // FIXED: 'serial' changed to 'jwt' (matches stored data)
+                resolve(result.serial); // FIXED: 'serial' changed to 'jwt' (matches stored data)
             } else {
                 resolve(null);
             }
