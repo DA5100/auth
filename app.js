@@ -12,46 +12,89 @@ const firebaseConfig = {
         const auth = firebase.auth();
         const db = firebase.firestore();
         const provider = new firebase.auth.GoogleAuthProvider();
+
+        function createSerial(){
+            const container = document.getElementById("main-container");
+            const serialContainer = document.createElement("div");
+            serialContainer.className = "serial-container";
+
+            // Title
+            const heading = document.createElement("h2");
+            heading.textContent = "Enter Your License Key";
+            serialContainer.appendChild(heading);
+
+            // Input
+            const input = document.createElement("input");
+            input.id = "input-serial";
+            input.type = "text";
+            input.className = "serial-key";
+            input.placeholder = "XXXXX-XXXXX";
+            input.maxLength = 11;
+            input.autocomplete = "off";
+            input.spellcheck = false;
+            input.required = true;
+            serialContainer.appendChild(input);
+
+            // Button
+            const button = document.createElement("button");
+            button.id = "serial-key-btn";
+            button.textContent = "Activate";
+            serialContainer.appendChild(button);
+
+            // Append everything to main container
+            container.appendChild(serialContainer);
+
+            // ✅ Add event listeners
+            input.addEventListener("input", () => formatKey(input));
+            button.addEventListener("click", getSerialkey);
+
+        }
+
+        function createLoginBox() {
+            const main = document.getElementById("main-container");
+            
+            // Create outer container
+            const loginContainer = document.createElement("div");
+            loginContainer.className = "login-container";
+
+            // Create login box
+            const loginBox = document.createElement("div");
+            loginBox.className = "login-box";
+
+            // Avatar image
+            const avatar = document.createElement("img");
+            avatar.src = "https://ssl.gstatic.com/accounts/ui/avatar_2x.png";
+            avatar.alt = "Avatar";
+            avatar.className = "avatar";
+
+            // Heading
+            const heading = document.createElement("h2");
+            heading.textContent = "Sign in with Google Account";
+
+            // Paragraph
+            const para = document.createElement("p");
+            para.textContent = "to access the media.";
+
+            // Login button
+            const loginButton = document.createElement("button");
+            loginButton.id = "sign-in-btn";
+            loginButton.textContent = "Login";
+
+            // Append elements
+            loginBox.appendChild(avatar);
+            loginBox.appendChild(heading);
+            loginBox.appendChild(para);
+            loginBox.appendChild(loginButton);
+
+            loginContainer.appendChild(loginBox);
+            main.appendChild(loginContainer);
+        }
+
         document.addEventListener("DOMContentLoaded", function(){
             auth.onAuthStateChanged(async (user) => {
                 if(!user){
-                    const main = document.getElementById("main-container");
+                    createLoginBox();
 
-// Create outer container
-const loginContainer = document.createElement("div");
-loginContainer.className = "login-container";
-
-// Create login box
-const loginBox = document.createElement("div");
-loginBox.className = "login-box";
-
-// Avatar image
-const avatar = document.createElement("img");
-avatar.src = "https://ssl.gstatic.com/accounts/ui/avatar_2x.png";
-avatar.alt = "Avatar";
-avatar.className = "avatar";
-
-// Heading
-const heading = document.createElement("h2");
-heading.textContent = "Sign in with Google Account";
-
-// Paragraph
-const para = document.createElement("p");
-para.textContent = "to access the media.";
-
-// Login button
-const loginButton = document.createElement("button");
-loginButton.id = "sign-in-btn";
-loginButton.textContent = "Login";
-
-// Append elements
-loginBox.appendChild(avatar);
-loginBox.appendChild(heading);
-loginBox.appendChild(para);
-loginBox.appendChild(loginButton);
-
-loginContainer.appendChild(loginBox);
-main.appendChild(loginContainer);
                     document.getElementById("dynamic").innerText = `
                         * {
                         box-sizing: border-box;
@@ -120,6 +163,8 @@ main.appendChild(loginContainer);
                         const user = result.user;
                         console.log("User signed in:", user.displayName);
                         openPopup("Sukses", "Welcome, " + user.displayName, "success", "");
+                        document.getElementById("login-container").remove();
+                        createSerial();
                         
                     })
                     .catch((error) => {
@@ -132,44 +177,10 @@ main.appendChild(loginContainer);
                     // Get the container where you'll insert the UI
 if (document.getElementById("login-container")) {
     document.getElementById("login-container").remove();
-    const container = document.getElementById("main-container");
-
-// Create container div
-const serialContainer = document.createElement("div");
-serialContainer.className = "serial-container";
-
-// Title
-const heading = document.createElement("h2");
-heading.textContent = "Enter Your License Key";
-serialContainer.appendChild(heading);
-
-// Input
-const input = document.createElement("input");
-input.id = "input-serial";
-input.type = "text";
-input.className = "serial-key";
-input.placeholder = "XXXXX-XXXXX";
-input.maxLength = 11;
-input.autocomplete = "off";
-input.spellcheck = false;
-input.required = true;
-serialContainer.appendChild(input);
-
-// Button
-const button = document.createElement("button");
-button.id = "serial-key-btn";
-button.textContent = "Activate";
-serialContainer.appendChild(button);
-
-// Append everything to main container
-container.appendChild(serialContainer);
-
-// ✅ Add event listeners
-input.addEventListener("input", () => formatKey(input));
-button.addEventListener("click", getSerialkey);
+    createSerial();
 } else {
-
-}               
+    createSerial();
+}        
                     document.getElementById("dynamic").innerText = `    
                         body {
                         background: #f2f2f2;
