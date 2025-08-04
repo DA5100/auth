@@ -162,7 +162,7 @@ const firebaseConfig = {
                     .then((result) => {
                         const user = result.user;
                         console.log("User signed in:", user.displayName);
-                        openPopup("Sukses", "Welcome, " + user.displayName, "success", "");
+                        openPopup("Sukses", "Welcome, " + user.displayName, "success", null);
                         createSerial();
                         if (document.getElementById("login-container")) {
                             document.getElementById("login-container").remove();
