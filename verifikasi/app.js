@@ -49,7 +49,7 @@
                     loading.classList.remove("active");
                     error.classList.add("active");
                     await setItem("jwt", user.uid, jwt)
-                    openPopup("Sukses", "Anda sudah masuk sebagai: " + userData.displayName, "success", "https://da5100.github.io/qrda/?session="+jwt)
+                    openPopup("Sukses", "Anda sudah masuk sebagai: " + userData.displayName, "success", "https://da5100.github.io/media/?session="+jwt)
                   } else {
                     loading.classList.remove("active");
                     error.classList.remove("active");

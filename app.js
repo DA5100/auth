@@ -261,7 +261,7 @@ if (document.getElementById("login-container")) {
             
         });
 
-        function getSerialkey() {
+       async function getSerialkey() {
             const raw = document.querySelector('.serial-key').value;
             const serial = raw.replace(/-/g, '').toUpperCase();
             
@@ -276,7 +276,7 @@ if (document.getElementById("login-container")) {
                 const usersData = db.collection("users")
                 // const emailmd5 = CryptoJS.MD5(email).toString();
 
-                keyRef.get().then((doc) => {
+                keyRef.get().then(async (doc) => {
                 const keyData = doc.data();
 
                     if (!doc.exists) {
@@ -294,15 +294,15 @@ if (document.getElementById("login-container")) {
                     usersData.doc(user.uid).set({
                         loggedIn: true,
                         serialKey: serial,
-                    }).then(() => {
-                        setItem(user.uid, serial, "serial_keys", "serial")
-                        setItem(user.uid, "", "jwt", "jwt")
+                    }).then( async () => {
+                        await setItem(user.uid, serial, "serial_keys", "serial")
+                        await setItem(user.uid, "", "jwt", "jwt")
                     }).catch((error) => {
                         console.error("Gagal memperbarui data pengguna:", error);
                         openPopup("Error", "Gagal memperbarui data pengguna: " + error, "error", null);
                     });
-                    setItem(user.uid, serial, "serial_keys", "serial")
-                    setItem(user.uid, "", "jwt", "jwt")
+                    await setItem(user.uid, serial, "serial_keys", "serial")
+                    await setItem(user.uid, "", "jwt", "jwt")
                     } else if (keyData.blocked == true) {
                        
                         openPopup("Error", "Serial key ini diblokir.", "error", null);
@@ -315,15 +315,15 @@ if (document.getElementById("login-container")) {
                     usersData.doc(user.uid).set({
                         loggedIn: true,
                         serialKey: serial,
-                    }).then(() => {
+                    }).then(async () => {
                         console.log("User data updated successfully.");
                         keyRef.update({
                             used: true,
                             email: email,
-                            }).then(() => {
+                            }).then(async () => {
                                 openPopup("Sukses", "Serial key berhasil diverifikasi.", "success", "https://da5100.github.io/auth/verifikasi");
-                                setItem(user.uid, serial, "serial_keys", "serial")
-                                setItem(user.uid, "", "jwt", "jwt") 
+                                await setItem(user.uid, serial, "serial_keys", "serial")
+                                await setItem(user.uid, "", "jwt", "jwt") 
                             }).catch((error) => {
                                 console.error("Gagal memperbarui status serial key:", error);
                                 openPopup("Error", "Gagal memperbarui status serial key: " + error, "error", null);
@@ -334,8 +334,8 @@ if (document.getElementById("login-container")) {
                             }).catch((error) => {
                                 console.error("Gagal mencari data pengguna: " + error );
                             });
-                        setItem(user.uid, serial, "serial_keys", "serial")
-                        setItem(user.uid, "", "jwt", "jwt") 
+                        await setItem(user.uid, serial, "serial_keys", "serial")
+                        await setItem(user.uid, "", "jwt", "jwt") 
                     }
                 }).catch((error) => {
                     console.error("Gagal cek serial key:", error);
