@@ -348,52 +348,50 @@ if (document.getElementById("login-container")) {
         
     }
     async function openIndexedDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open("auth", 1);
-                request.onupgradeneeded = (event) => {
-                    const db = event.target.result;
-                    if (!db.objectStoreNames.contains("serial_keys")) {
-                        db.createObjectStore("serial_keys", { keyPath: "uid" });
-                    }
-                    if (!db.objectStoreNames.contains("jwt")) {
-                        db.createObjectStore("jwt", { keyPath: "uid" });
-                    }
-                };
-                request.onsuccess = () => {
-                    resolve(request.result);
-                };
-                request.onerror = () => {
-                    reject(request.error);
-                };
-            });
-        }
-        
-        async function setItem(key, value, store, valueName = "serial") {
-            const db = await openIndexedDB();
-            return new Promise((resolve, reject) => {
-                const tx = db.transaction(store, "readwrite");
-                const store = tx.objectStore(store);
-                const req = store.put({uid: key, [valueName]: value});
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("auth", 1);
 
-                req.onsuccess = resolve(true);
-                req.onerror = reject(req.error);
-            })
-        }
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains("serial_keys")) {
+                db.createObjectStore("serial_keys", { keyPath: "uid" });
+            }
+            if (!db.objectStoreNames.contains("jwt")) {
+                db.createObjectStore("jwt", { keyPath: "uid" });
+            }
+        };
 
-        async function getItem(key, store, valueName = "serial") {
-            const db = await openIndexedDB();
-            return new Promise((resolve, reject) => {
-                const tx = db.transaction(store, "readonly");
-                const store = tx.objectStore(store);
-                const req = store.get(key);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
 
-                req.onsuccess = resolve(req.result[valueName]);
-                req.onerror = reject(req.error)    
-            })
-            
-        }
+async function setItem(key, value, storeName, valueName = "serial") {
+    const db = await openIndexedDB();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(storeName, "readwrite");
+        const objectStore = tx.objectStore(storeName);
+        const req = objectStore.put({ uid: key, [valueName]: value });
 
-    
+        req.onsuccess = () => resolve(true);
+        req.onerror = () => reject(req.error);
+    });
+}
+
+async function getItem(key, storeName, valueName = "serial") {
+    const db = await openIndexedDB();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(storeName, "readonly");
+        const objectStore = tx.objectStore(storeName);
+        const req = objectStore.get(key);
+
+        req.onsuccess = () => {
+            const result = req.result ? req.result[valueName] : null;
+            resolve(result);
+        };
+        req.onerror = () => reject(req.error);
+    });
+}
     function formatKey(input) {
     let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
 
