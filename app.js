@@ -92,7 +92,7 @@ const firebaseConfig = {
             main.appendChild(loginContainer);
         }
 
-        document.addEventListener("DOMContentLoaded", function(){
+        document.addEventListener("DOMContentLoaded", async function(){
             auth.onAuthStateChanged(async (user) => {
                 if(!user){
                     createLoginBox();
@@ -166,7 +166,19 @@ const firebaseConfig = {
                         console.log("User signed in:", user.displayName);
                         openPopup("Sukses", "Welcome, " + user.displayName, "success", null);
 
-                        usersData = db.collection("users");
+                        if (document.getElementById("login-container")) {
+                            document.getElementById("login-container").remove();
+                            createSerial();
+                        }
+                    })
+                    .catch(async (error) => {
+                        console.error('Error signing in with Google:', error);
+                        openPopup("Error", "Gagal masuk dengan Google: " + error, "error", null);
+                    }); 
+                });
+                
+                } else {
+                    usersData = db.collection("users");
                         usersData.doc(user.uid).get()
                         .then(async (doc) => {
                             if (doc.exists) {
@@ -181,28 +193,16 @@ const firebaseConfig = {
                                 }
                             } else {
                                 console.log("No user data found, creating new entry.");
+                                if (document.getElementById("login-container")) {
+                                    document.getElementById("login-container").remove();
+                                    createSerial();
+                                } else {
+                                    createSerial();
+                                }        
                             }
                         });
-
-                        if (document.getElementById("login-container")) {
-                            document.getElementById("login-container").remove();
-                            createSerial();
-                        }
-                    })
-                    .catch(async (error) => {
-                        console.error('Error signing in with Google:', error);
-                        openPopup("Error", "Gagal masuk dengan Google: " + error, "error", null);
-                    }); 
-                });
-                
-                } else {
                     // Get the container where you'll insert the UI
-if (document.getElementById("login-container")) {
-    document.getElementById("login-container").remove();
-    createSerial();
-} else {
-    createSerial();
-}        
+
                     document.getElementById("dynamic").innerText = `    
                         body {
                         background: #f2f2f2;
