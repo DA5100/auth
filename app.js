@@ -158,21 +158,38 @@ const firebaseConfig = {
                     `
                 document.getElementById("sign-in-btn").addEventListener("click", async () => {
                     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-                    .then(() => {
+                    .then(async () => {
                         return auth.signInWithPopup(provider);
                     })
-                    .then((result) => {
+                    .then(async (result) => {
                         const user = result.user;
                         console.log("User signed in:", user.displayName);
                         openPopup("Sukses", "Welcome, " + user.displayName, "success", null);
-                        createSerial();
+
+                        usersData = db.collection("users");
+                        usersData.doc(user.uid).get()
+                        .then(async (doc) => {
+                            if (doc.exists) {
+                                const userData = doc.data();
+                                if (userData.loggedIn && userData.serialKey) {
+                                    console.log("User data found:", userData);
+                                    await setItem(user.uid, userData.serialKey, "serial_keys", "serial")
+                                    openPopup("Sukses", "Anda sudah masuk sebagai: " + user.displayName, "success", "https://da5100.github.io/auth/verifikasi");
+                                } else {
+                                    console.log("User data not found or not logged in.");
+                                    openPopup("Error", "Data pengguna tidak ditemukan atau tidak masuk.", "error", null);
+                                }
+                            } else {
+                                console.log("No user data found, creating new entry.");
+                            }
+                        });
+
                         if (document.getElementById("login-container")) {
                             document.getElementById("login-container").remove();
                             createSerial();
                         }
-                        
                     })
-                    .catch((error) => {
+                    .catch(async (error) => {
                         console.error('Error signing in with Google:', error);
                         openPopup("Error", "Gagal masuk dengan Google: " + error, "error", null);
                     }); 

@@ -47,12 +47,12 @@
                   if (userData.loggedIn == true && userData.serialKey == key) {
                     console.log("User data found:", userData);
                     loading.classList.remove("active");
-                    error.classList.add("active");
+                    success.classList.add("active");
                     await setItem("jwt", user.uid, jwt)
                     openPopup("Sukses", "Anda sudah masuk sebagai: " + user.displayName, "success", "https://da5100.github.io/media/")
                   } else {
                     loading.classList.remove("active");
-                    error.classList.remove("active");
+                    error.classList.add("active");
                     console.log("User data not found or not logged in.");
                   }
                 } else {
@@ -70,7 +70,7 @@
           }
         else {
           loading.classList.remove("active");
-          error.classList.remove("active");
+          error.classList.add("active");
           console.log("No user is logged in.");
         }   
       });
